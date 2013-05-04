@@ -141,7 +141,7 @@ function csv(img, level) {
     t.push('NEUTRAL');
   }
 
-  var csvstr = '"Team","Level","Name","Address","Energy","Links","Mods","Resonators","PHOTO"\n';
+  var csvstr = '"id","Lat","Long","Team","Level","Name","Address","Energy","Links","Mods","Resonators","PHOTO"\n';
 
   n.forEach(function(v){
     var idx = levels[v];
@@ -158,8 +158,13 @@ function csv(img, level) {
         , matched = krxp ? krxp.test(l.addr) : true
         , same = t.length ? t.indexOf(l.team) > -1 : false;
 
+      chrome.extension.getBackgroundPage().console.log(l);
+
       if( valid && matched && same ) {
         csvstr += '"'+(l.team=='ALIENS'?'ENLIGHTENED':l.team)+'"';
+        csvstr += ',"'+(0+l.id)+'"';
+        csvstr += ',"'+(0+l.lat)+'"';
+        csvstr += ',"'+(0+l.lng)+'"';
         csvstr += ',"'+(0+l.level)+'"';
         csvstr += ',"'+l.name.replace(/\"/g, '\'\'')+'"';
         csvstr += ',"'+l.addr.replace(/\"/g, '\'\'')+'"';
